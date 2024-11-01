@@ -1,6 +1,7 @@
 import { withRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import SlideToggle from 'react-slide-toggle';
+// import SlideToggle from 'react-slide-toggle';
+import { Collapse } from '@kunukn/react-collapse'
 
 // Import Custom Component
 import ALink from "../ALink";
@@ -9,6 +10,16 @@ import { mainMenu } from "../../../utils/data/menu";
 function MobileMenu ( { router } ) {
     const pathname = router.pathname;
     const [ searchText, setSearchText ] = useState( '' );
+    const [isOpen, setIsOpen] = useState({
+        category:false,
+        variation1:false,
+        variation2:false,
+        product:false,
+        product_pages:false,
+        product_layout:false,
+        other_pages:false
+    })
+    const onToggle = (state) => setIsOpen({...isOpen,[state]:!isOpen[state]})
 
     useEffect( () => {
         router.events.on( 'routeChangeStart', closeMobileMenu );
@@ -56,21 +67,19 @@ function MobileMenu ( { router } ) {
                                 <ALink href="/">Home</ALink>
                             </li>
                             <li className={ pathname.startsWith( '/shop' ) ? 'active' : '' }>
+                                <ALink href="/shop" className={ `${ isOpen.category?"expanded":"collapsed" }` }>Categories<span className="mmenu-btn" onClick={ e => { e.preventDefault(); onToggle("category"); } }></span></ALink>
                                 {
-                                    <SlideToggle collapsed={ true }>
-                                        { ( { onToggle, setCollapsibleElement, toggleState } ) => (
+                                    <Collapse isOpen={ isOpen.category } transition="height 300ms cubic-bezier(0.4, 0, 0.2, 1)">
                                             <>
-                                                <ALink href="/shop" className={ `${ toggleState.toLowerCase() }` }>Categories<span className="mmenu-btn" onClick={ e => { e.preventDefault(); onToggle(); } }></span></ALink>
 
-                                                <ul ref={ setCollapsibleElement }>
+                                                <ul >
                                                     <li>
-                                                        <SlideToggle collapsed={ true }>
-                                                            { ( { onToggle, setCollapsibleElement, toggleState } ) => (
-                                                                <>
-                                                                    <ALink href="#" className={ `${ toggleState.toLowerCase() }` }>VARIATION 1
-                                                                    <span className="mmenu-btn" onClick={ e => { e.preventDefault(); onToggle(); } }></span>
+                                                                    <ALink href="#" className={ `${ isOpen.variation1?"expanded":"collapsed" }` }>VARIATION 1
+                                                                    <span className="mmenu-btn" onClick={ e => { e.preventDefault(); onToggle('variation1'); } }></span>
                                                                     </ALink>
-                                                                    <ul ref={ setCollapsibleElement }>
+                                                        <Collapse isOpen={ isOpen.variation1 } transition="height 300ms cubic-bezier(0.4, 0, 0.2, 1)">
+                                                                <>
+                                                                    <ul >
                                                                         {
                                                                             mainMenu.shop.variation1.map( ( variations, index ) => (
                                                                                 <li key={ "menu-item" + index }>
@@ -80,18 +89,17 @@ function MobileMenu ( { router } ) {
                                                                         }
                                                                     </ul>
                                                                 </>
-                                                            ) }
-                                                        </SlideToggle>
+                                                        </Collapse>
                                                     </li>
 
                                                     <li>
-                                                        <SlideToggle collapsed={ true }>
-                                                            { ( { onToggle, setCollapsibleElement, toggleState } ) => (
-                                                                <>
-                                                                    <ALink href="#" className={ `${ toggleState.toLowerCase() }` }>VARIATION 2
-                                                                    <span className="mmenu-btn" onClick={ e => { e.preventDefault(); onToggle(); } }></span>
+                                                                    <ALink href="#" className={ `${ isOpen.variation2?"expanded":"collapsed" }` }>VARIATION 2 
+                                                                    <span className="mmenu-btn" onClick={ e => { e.preventDefault(); onToggle('variation2'); } }></span>
                                                                     </ALink>
-                                                                    <ul ref={ setCollapsibleElement }>
+                                                        <Collapse isOpen={ isOpen.variation2 } transition="height 300ms cubic-bezier(0.4, 0, 0.2, 1)">
+                                                                
+                                                                <>
+                                                                    <ul >
                                                                         {
                                                                             mainMenu.shop.variation2.map( ( variations, index ) => (
                                                                                 <li key={ "menu-item" + index }>
@@ -101,32 +109,28 @@ function MobileMenu ( { router } ) {
                                                                         }
                                                                     </ul>
                                                                 </>
-                                                            ) }
-                                                        </SlideToggle>
+                                                        </Collapse>
                                                     </li>
                                                 </ul>
                                             </>
-                                        ) }
-                                    </SlideToggle>
+                                    </Collapse>
                                 }
                             </li>
 
                             <li className={ pathname.startsWith( '/product' ) ? 'active' : '' }>
+                                <ALink href="/product/default/headphone-black-two" className={ `${ isOpen.product?"expanded":"collapsed" }` }>Products<span className=" mmenu-btn" onClick={ e => { e.preventDefault(); onToggle("product"); } }></span></ALink>
                                 {
-                                    <SlideToggle collapsed={ true }>
-                                        { ( { onToggle, setCollapsibleElement, toggleState } ) => (
+                                    <Collapse isOpen={ isOpen.product } transition="height 300ms cubic-bezier(0.4, 0, 0.2, 1)">
                                             <>
-                                                <ALink href="/product/default/headphone-black-two" className={ `${ toggleState.toLowerCase() }` }>Products<span className=" mmenu-btn" onClick={ e => { e.preventDefault(); onToggle(); } }></span></ALink>
 
-                                                <ul ref={ setCollapsibleElement }>
+                                                <ul >
                                                     <li>
-                                                        <SlideToggle collapsed={ true }>
-                                                            { ( { onToggle, setCollapsibleElement, toggleState } ) => (
-                                                                <>
-                                                                    <ALink href="#" className={ `${ toggleState.toLowerCase() }` }>PRODUCT PAGES
-                                                                    <span className="mmenu-btn" onClick={ e => { e.preventDefault(); onToggle(); } }></span>
+                                                                    <ALink href="#" className={ `${ isOpen.product_pages?"expanded":"collapsed" }` }>PRODUCT PAGES
+                                                                    <span className="mmenu-btn" onClick={ e => { e.preventDefault(); onToggle("product_pages"); } }></span>
                                                                     </ALink>
-                                                                    <ul ref={ setCollapsibleElement }>
+                                                        <Collapse isOpen={ isOpen.product_pages } transition="height 300ms cubic-bezier(0.4, 0, 0.2, 1)">
+                                                                <>
+                                                                    <ul >
                                                                         {
                                                                             mainMenu.product.pages.map( ( variations, index ) => (
                                                                                 <li key={ "menu-item" + index }>
@@ -136,18 +140,16 @@ function MobileMenu ( { router } ) {
                                                                         }
                                                                     </ul>
                                                                 </>
-                                                            ) }
-                                                        </SlideToggle>
+                                                        </Collapse>
                                                     </li>
 
                                                     <li>
-                                                        <SlideToggle collapsed={ true }>
-                                                            { ( { onToggle, setCollapsibleElement, toggleState } ) => (
-                                                                <>
-                                                                    <ALink href="#" className={ `${ toggleState.toLowerCase() }` }>PRODUCT LAYOUTS
-                                                                    <span className="mmenu-btn" onClick={ e => { e.preventDefault(); onToggle(); } }></span>
+                                                                    <ALink href="#" className={ `${ isOpen.product_layout?"expanded":"collapsed" }` }>PRODUCT LAYOUTS
+                                                                    <span className="mmenu-btn" onClick={ e => { e.preventDefault(); onToggle("product_layout"); } }></span>
                                                                     </ALink>
-                                                                    <ul ref={ setCollapsibleElement }>
+                                                        <Collapse isOpen={ isOpen.product_layout } transition="height 300ms cubic-bezier(0.4, 0, 0.2, 1)">
+                                                                <>
+                                                                    <ul >
                                                                         {
                                                                             mainMenu.product.layout.map( ( variations, index ) => (
                                                                                 <li key={ "menu-item" + index }>
@@ -157,22 +159,19 @@ function MobileMenu ( { router } ) {
                                                                         }
                                                                     </ul>
                                                                 </>
-                                                            ) }
-                                                        </SlideToggle>
+                                                        </Collapse>
                                                     </li>
                                                 </ul>
                                             </>
-                                        ) }
-                                    </SlideToggle>
+                                    </Collapse>
                                 }
                             </li>
 
                             <li className={ isOtherPage() ? 'active' : '' }>
-                                <SlideToggle collapsed={ true }>
-                                    { ( { onToggle, setCollapsibleElement, toggleState } ) => (
+                                            <a href="#" className={ `${ isOpen.variation2?"expanded":"collapsed" }` } onClick={ e => { e.preventDefault(); onToggle("other_pages"); } }>Pages<span className="mmenu-btn"></span></a>
+                                <Collapse isOpen={ isOpen.other_pages } transition="height 300ms cubic-bezier(0.4, 0, 0.2, 1)">
                                         <>
-                                            <a href="#" className={ `${ toggleState.toLowerCase() }` } onClick={ e => { e.preventDefault(); onToggle(); } }>Pages<span className="mmenu-btn"></span></a>
-                                            <ul ref={ setCollapsibleElement }>
+                                            <ul >
                                                 <li><ALink href="/pages/wishlist">Wishlist</ALink></li>
                                                 <li><ALink href="/pages/cart">Shopping Cart</ALink></li>
                                                 <li><ALink href="/pages/checkout">Checkout</ALink></li>
@@ -181,8 +180,7 @@ function MobileMenu ( { router } ) {
                                                 <li><ALink href="/pages/forgot-password">Forgot Password</ALink></li>
                                             </ul>
                                         </>
-                                    ) }
-                                </SlideToggle>
+                                </Collapse>
                             </li>
 
                             <li><ALink href="/pages/blog">Blog</ALink></li>
