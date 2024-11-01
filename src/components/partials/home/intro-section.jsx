@@ -4,14 +4,13 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 // Import Custom Component
 import ALink from '../../common/ALink';
 import OwlCarousel from '../../features/owl-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel'
 
 function IntroSection() {
     return (
-        <OwlCarousel adClass="home-slider text-uppercase nav-big bg-gray" options={{
-            nav: true,
-            loop: false,
-            navText: ['<i class="icon-left-open-big">', '<i class="icon-right-open-big">']
-        }}>
+        <Carousel adClass="home-slider text-uppercase nav-big bg-gray" autoPlay={true} interval={10000} infiniteLoop={true} showArrows={true} >  
+        
             <div className="home-slide home-slide1 banner">
                 <figure className="w-100">
                    
@@ -58,7 +57,7 @@ function IntroSection() {
                     </div>
                 </div>
             </div>
-        </OwlCarousel>
+        </Carousel>
     );
 }
 

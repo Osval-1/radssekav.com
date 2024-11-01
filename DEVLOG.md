@@ -5,3 +5,4 @@
 ### packages to be replaced
 
 - replace react-slide-toggle with @kunukn/react-collapseh
+- repalce react-owl-carousel2 with react-responsive-carousel
